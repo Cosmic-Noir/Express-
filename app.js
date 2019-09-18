@@ -42,6 +42,50 @@ app.get("/sum", (req, res) => {
   res.send(result);
 });
 
+app.get("/cipher", (req, res) => {
+  const text = req.query.text;
+  const shift = req.query.shift;
+  const numShift = parseInt(shift);
+
+  const base = "A".charCodeAt(0); // get char code?
+
+  const cipher = text
+    .toUpperCase()
+    .split("")
+    .map(char => {
+      const code = char.charCodeAt(0);
+
+      if (code < base || code > base + 26) {
+        return char;
+      }
+      let diff = code - base;
+      diff = diff + numShift;
+
+      diff = diff % 26;
+
+      const shiftedChar = String.fromCharCode(base + diff);
+      return shiftedChar;
+    });
+
+  res.send(cipher);
+});
+
+app.get("/lotto", (req, res) => {
+  const array = req.query.arr;
+  const myArray = [];
+  for (let i = 0; i <= 6; i++) {
+    myArray.push(Math.floor(Math.random() * 20));
+  }
+  let diff = myArray.filter(n => !array.includes(n));
+  if (diff.length > 4) {
+    res.send("Sorry, you guessed fewer than 2 correct");
+  } else if (diff.length === 2) {
+    res.send("Congrats! You win a free ticket!");
+  } else if (diff.length === 0) {
+    res.send("Wow! Somehow you guessed all correct!");
+  }
+});
+
 app.get("/greetings", (req, res) => {
   // 1. get values from query object:
   const name = req.query.name;

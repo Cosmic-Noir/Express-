@@ -34,6 +34,14 @@ app.get("/queryViewer", (req, res) => {
   res.end(); // do not send any data back to the client
 });
 
+app.get("/sum", (req, res) => {
+  const a = req.query.a;
+  const b = req.query.b;
+  const sum = parseInt(a, 10) + parseInt(b, 10);
+  const result = `The sum of a and b is ${sum}`;
+  res.send(result);
+});
+
 app.get("/greetings", (req, res) => {
   // 1. get values from query object:
   const name = req.query.name;
@@ -47,7 +55,7 @@ app.get("/greetings", (req, res) => {
     return res.status(400).send("Please provide a race");
   }
   // 4 and 5. Values are valid, so proceed:
-  const greeting = `Greetings ${name} the ${race}, welcome to our kingdom.`;
+  const greeting = `Greetings ${name} the ${race}, welcome to our kingdom, where you will thrive.`;
 
   res.send(greeting);
 });
